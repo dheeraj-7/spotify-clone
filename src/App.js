@@ -12,6 +12,7 @@ function App() {
   const [{ token }, dispatch] = useDataLayerValue();
 
   useEffect(() => {
+    // Setting Token
     const hash = getTokenFromUrl();
     window.location.hash = "";
     let _token = hash.access_token;
@@ -43,9 +44,26 @@ function App() {
         discover_weekly: response,
       })
     });
+
+    spotify.getMyTopArtists().then((response) =>{
+      dispatch({
+        type: "SET_TOP_ARTISTS",
+        top_artists: response,
+      })
+    });
+
+    dispatch({
+      type: "SET_SPOTIFY",
+      spotify: spotify,
+    })
+
+    dispatch({
+      type: "SET_PLAYING",
+      playing: false,
+    })
     }
     console.log("I Have a Token:", token);
-  }, []);
+  }, [token, dispatch]);
 
   // console.log("User:", user);
   // console.log("My Token:", token);
